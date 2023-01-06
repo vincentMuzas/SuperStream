@@ -1,0 +1,12 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='https://vjs.zencdn.net/7.20.3/video-js.css')
+
+block content
+
+  h2= title
+  video(id="my-video", class="video-js", controls, preload="auto", width="1000", height="563", data-setup="{}")
+    source(src=videoURL)
+
+  script(src="https://vjs.zencdn.net/7.20.3/video.min.js")

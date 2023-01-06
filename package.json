@@ -1,0 +1,23 @@
+{
+  "name": "superstream",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "set DEBUG=myapp:* & nodemon ./bin/www",
+    "startProd": "set NODE_ENV=production & node ./bin/www"
+  },
+  "devDependencies": {
+    "nodemon": "..."
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.18.2",
+    "http-errors": "~1.6.3",
+    "jade": "^0.29.0",
+    "morgan": "~1.9.1",
+    "mp4-convert": "^1.0.2",
+    "nodemon": "^2.0.20",
+    "video.js": "^7.20.3"
+  }
+}

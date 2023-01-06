@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+
+  if (files.length)
+    ul(class="collection")
+      each file in files
+        a(href=file.path)
+          li(class="collection-item avatar valign-wrapper hover-animation")
+            i(class="material-icons circle red " + file.icon_color)=file.icon
+            span(class="title", style="color: black;")=file.name
+  else
+    h4 Wow! mutch empty!
+
+  

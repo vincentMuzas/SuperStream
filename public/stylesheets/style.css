@@ -1,0 +1,8 @@
+.hover-animation {
+    transition: background-color 500ms ease;
+}
+
+.hover-animation:hover {
+    z-index: 1;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.4);
+}

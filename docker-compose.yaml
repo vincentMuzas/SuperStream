@@ -1,0 +1,9 @@
+services:
+  super-stream:
+    build: ./
+    restart: always
+    volumes:
+      - C:\Users\vincent\Documents\SuperStream\Videos:/Videos
+    ports:
+      - 80:3000
+

@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title= title
+    link(type="text/css", rel="stylesheet", href="/stylesheets/style.css")
+    link(type="text/css", rel="stylesheet", href="/materialize/css/materialize.min.css", media="screen,projection")
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+    block head
+  body
+    nav(role="navigation")
+      div(class="nav-wrapper container")
+        a(href="/", class="brand-logo", style="padding-left: 20px") Super Stream
+          //i(class="material-icons") ondemand_video
+    div(class="container")
+      block content
+    script(type="text/javascript", src="/materialize/js/materialize.min.js")
