@@ -3,7 +3,7 @@ services:
     build: ./
     restart: always
     volumes:
-      - C:\Users\vincent\Documents\SuperStream\Videos:/Videos
+      - C:\Users\vincent\Documents\SuperStream\Videos:/usr/src/SuperStream/public/Videos
     ports:
       - 80:3000
 
