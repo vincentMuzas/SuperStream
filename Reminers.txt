@@ -1,0 +1,40 @@
+/**
+ * Extract subtitles info
+ * [s/a/v] stands for "Subtitles", "Audio" or "Video"
+ **/
+ffprobe -v error -of json ${PATH(.mkv)} -of json -show_entries "stream=index:stream_tags" -select_streams [s/a/v]
+
+OUTPUT EXEMPLE:
+"streams": [
+    {
+        "index": 3,
+        "tags": {
+            "language": "fre",
+            "title": "SRT Forced FR",
+            "BPS": "0",
+            "BPS-eng": "0",
+            "DURATION": "00:15:06.698000000",
+            "DURATION-eng": "00:15:06.698000000",
+            "NUMBER_OF_FRAMES": "2",
+            "NUMBER_OF_FRAMES-eng": "2",
+            "NUMBER_OF_BYTES": "76",
+            "NUMBER_OF_BYTES-eng": "76",
+            "_STATISTICS_WRITING_APP": "mkvmerge v20.0.0 ('I Am The Sun') 64-bit",
+            "_STATISTICS_WRITING_APP-eng": "mkvmerge v20.0.0 ('I Am The Sun') 64-bit",
+            "_STATISTICS_WRITING_DATE_UTC": "2018-10-25 21:56:09",
+            "_STATISTICS_WRITING_DATE_UTC-eng": "2018-10-25 21:56:09",
+            "_STATISTICS_TAGS": "BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES",
+            "_STATISTICS_TAGS-eng": "BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES"
+        }
+    },
+]
+
+/**
+ * Then extract the track
+ *
+**/
+
+ffmpeg -i ${PATH(.mkv)} -map "0:${streams.index}" ${streams.tags.title}.${streams.tags.language}.srt
+
+// Video only
+ffmpeg -i ${PATH(.mkv)} -map "0:${streams.index}" ${output_path}.mp4 -c:v copy

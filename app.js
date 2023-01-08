@@ -20,9 +20,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  console.log('Time:', Date.now())
+  console.log(req.cookies.token)
+  if (req.cookies.token != "azerty") {
+    res.render("login.jade");
+  }
+  else {
+    next()
+  }
+  //res.render('login.jade');
+})
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/video', videoRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -2,11 +2,24 @@ extends layout
 
 block head
   link(rel='stylesheet', href='https://vjs.zencdn.net/7.20.3/video-js.css')
+  script(type="text/javascript", src="/audio.js")
 
 block content
 
   h2= title
-  video(id="my-video", class="video-js", controls, preload="auto", width="1000", height="563", data-setup="{}")
+  video(id="my-video", class="video-js", controls, preload="auto", width="1000", aspectRatio="16:9", data-setup="{}")
+    each element, i in subtitles
+      track(kind='subtitles', src=element.path, srclang=element.srclang, label=element.name, default=i==0, class="trackStyle")
     source(src=videoURL)
+  
+  if (audio.length)
+    h4 Audio
+    ul(class="collection", id="audioTrackList")
+      each element, i in audio
+        li(class="collection-item avatar valign-wrapper hover-animation", onclick="setAudio(this)", audioURL=element.path)
+          i(class="large material-icons circle green ") audiotrack
+          span(class="title", style="color: black;")=element.name
+    audio(src=audio[0].path, id="audio_playback", style="display: none;", mediagroup="pip")
+  
 
   script(src="https://vjs.zencdn.net/7.20.3/video.min.js")

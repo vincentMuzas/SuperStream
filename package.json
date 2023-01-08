@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "set DEBUG=myapp:* & nodemon ./bin/www",
-    "startProd": "set NODE_ENV=production & node ./bin/www"
+    "prod": "set NODE_ENV=production & node ./bin/www"
   },
   "devDependencies": {
     "nodemon": "..."

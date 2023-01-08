@@ -28,7 +28,6 @@ router.get(['/', "/search"], function(req, res, next) {
         type: "file",
         name: file.slice(0, -4),
         path: "/video/watch?q=" + (req.query.path ? req.query.path + '/' : '') + file,
-        subtitles: "/video/subtitles/" + file,
         icon: "play_arrow",
         icon_color: "red",
       });
@@ -38,7 +37,44 @@ router.get(['/', "/search"], function(req, res, next) {
 });
 
 router.get('/watch', function(req, res, next) {
-  res.render('video_watch.jade', {title: "Watch " + req.query.q.split('/').at(-1).slice(0, -4), videoURL: "/Videos/" + req.query.q});
+  subtitles = Array();
+  audio = Array();
+
+  let url = req.query.q
+  var to = url.lastIndexOf('/');
+  to = to == -1 ? url.length : to + 1;
+  localPath = "./public/Videos/" + url.substring(0, to);
+  webpath = "/Videos/" + url.substring(0, to);
+  filename = url.substring(to, url.length - 4);
+  
+  fs.readdirSync(localPath).forEach(file => {
+    if (file.endsWith(".vtt") && file.startsWith(filename))
+      subtitles.push({
+        type: "file",
+        name: file.substring(filename.length + 1, file.length - 4),
+        srclang: 0,
+        path: webpath + file
+      }
+    );
+  });
+
+  fs.readdirSync(localPath).forEach(file => {
+    if (file.endsWith(".mp3") && file.startsWith(filename))
+      audio.push({
+        type: "file",
+        name: file.substring(filename.length + 1, file.length - 4),
+        path: webpath + file
+      }
+    );
+  });
+
+  res.render('video_watch.jade',
+    {
+      title: "Watch " + req.query.q.split('/').at(-1).slice(0, -4),
+      videoURL: "/Videos/" + req.query.q,
+      subtitles: subtitles,
+      audio: audio
+    });
 })
 
 module.exports = router;
