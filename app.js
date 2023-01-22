@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const rateLimit = require('express-rate-limit')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,11 +21,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+app.use(limiter);
+
 app.use((req, res, next) => {
-  console.log('Time:', Date.now())
-  console.log(req.cookies.token)
+  console.log(req.ip, req.cookies.token)
   if (req.cookies.token != "azerty") {
-    res.render("login.jade");
+    res.status(401).render("login.jade");
   }
   else {
     next()
@@ -45,8 +53,8 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.message = "Error!";
+  res.locals.error = {};
   res.locals.title = "Error!";
 
   // render the error page
